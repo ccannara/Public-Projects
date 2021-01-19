@@ -22,3 +22,5 @@ numpy
 pandas
 pandas_datareader
 install sklearn
+
+DISCLAIMER: SVM was trained differently for this Github release - will be less accurate.
