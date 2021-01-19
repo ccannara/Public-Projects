@@ -1,19 +1,9 @@
-#!/usr/bin/env python
-# coding: utf-8
-
-# In[1]:
-
-
 # pip install requests_html
 # pip install yahoo_fin
 # pip install numpy
 # pip install pandas
 # pip install pandas_datareader
 # pip install sklearn
-
-
-# In[2]:
-
 
 import pandas as pd
 import numpy as np
@@ -24,10 +14,9 @@ from sklearn.model_selection import train_test_split
 
 import datetime as dt
 import yfinance as yf
+
 from yahoo_fin import stock_info as si
-
 from pandas_datareader import data as pdr
-
 from forex_python.converter import CurrencyRates, CurrencyCodes
 
 class bcolors:
@@ -90,22 +79,20 @@ def MLPred(df):
     df['Prediction'] = df[['Adj Close']].shift(-forecast)
 
     X = np.array(df.drop(['Prediction'], 1))
-    # print(X)
-    # print(X.size)
+
     if (X.size < forecast + 6):
         print("Can't create accurate r^2 value, setting forecast to", X.size - 6)
         forecast = X.size - 6
         df['Prediction'] = df[['Adj Close']].shift(-forecast)
         
-    # print("Forecast: ", forecast)
     X = X[:-forecast]
     y = np.array(df['Prediction'])
     y = y[:-forecast]
 
     # Split data lists to train and test
-    x_train, x_test, y_train, y_test = train_test_split(X, y, test_size=0.2)
+    x_train, x_test, y_train, y_test = train_test_split(X, y, test_size = 0.1)
     # Create and train SVM (Support Vector Machine)
-    svr_rbf = SVR(kernel='rbf', C=1e3, gamma=0.1)
+    svr_rbf = SVR(kernel='rbf', C=1e3, gamma=0.15)
 
     print("\nTraining SVM...")
     svr_rbf.fit(x_train, y_train)
@@ -244,7 +231,3 @@ def __init__():
 
     print(f"\n{bcolors.OKBLUE}Goodbye!{bcolors.ENDC}\n")
 __init__()
-
-
-
-# %%
